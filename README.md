@@ -110,4 +110,30 @@
             return lastRollDate !== today;
         }
 
-        document.getElementById("roll
+        function rollDice() {
+            if (!checkRollEligibility()) {
+                document.getElementById("result").innerText = "You have already rolled today. Try again tomorrow!";
+                return;
+            }
+
+            const dice1 = getRandomDice();
+            const dice2 = getRandomDice();
+            document.getElementById("dice1").innerText = getDiceEmoji(dice1);
+            document.getElementById("dice2").innerText = getDiceEmoji(dice2);
+
+            localStorage.setItem("lastRollDate", new Date().toISOString().split('T')[0]);
+
+            const total = dice1 + dice2;
+            document.getElementById("result").innerText = `You rolled a ${total}! Your discount is ${total * 5}%`;
+        }
+
+        function getDiceEmoji(number) {
+            const diceFaces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+            return diceFaces[number - 1];
+        }
+
+        document.getElementById("rollButton").addEventListener("click", rollDice);
+    </script>
+
+</body>
+</html>
