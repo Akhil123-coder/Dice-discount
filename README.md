@@ -5,21 +5,98 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dice Discount</title>
     <style>
-        body { text-align: center; font-family: Arial, sans-serif; }
-        .dice-container { margin: 20px; }
-        .dice { font-size: 50px; margin: 10px; }
-        .hidden { display: none; }
+        /* General Styling */
+        body {
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        p {
+            font-size: 1.2rem;
+        }
+
+        /* Dice Container */
+        .dice-container {
+            margin: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .dice {
+            font-size: 80px;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        /* Button Styling */
+        #rollButton {
+            padding: 12px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            background: #ff416c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        #rollButton:hover {
+            background: #ff4b2b;
+            transform: scale(1.05);
+        }
+
+        #result {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        /* WhatsApp Contact */
+        a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-    <h1>Roll the Dice for a Discount!</h1>
+
+    <h1>🎲 Roll the Dice for a Discount! 🎲</h1>
     <p>You can roll once per day.</p>
+
+    <!-- Dice Display -->
     <div class="dice-container">
         <span class="dice" id="dice1">⚀</span>
         <span class="dice" id="dice2">⚀</span>
     </div>
-    <button id="rollButton">Roll Dice</button>
+
+    <!-- Roll Button -->
+    <button id="rollButton">🎲 Roll Dice</button>
+
+    <!-- Result Message -->
     <p id="result"></p>
+
+    <!-- WhatsApp Contact -->
     <p>Contact us on WhatsApp: <a href="https://wa.me/919756448178" target="_blank">+91 9756448178</a></p>
 
     <script>
@@ -30,28 +107,7 @@
         function checkRollEligibility() {
             const lastRollDate = localStorage.getItem("lastRollDate");
             const today = new Date().toISOString().split('T')[0];
-            return lastRollDate !== today; // Returns true if user can roll
+            return lastRollDate !== today;
         }
 
-        document.getElementById("rollButton").addEventListener("click", function() {
-            if (!checkRollEligibility()) {
-                document.getElementById("result").textContent = "You have already rolled today. Try again tomorrow!";
-                return;
-            }
-
-            const dice1 = getRandomDice();
-            const dice2 = getRandomDice();
-            const total = dice1 + dice2;
-            const discount = total; // 1 point = 1% discount
-
-            const diceFaces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
-            document.getElementById("dice1").textContent = diceFaces[dice1 - 1];
-            document.getElementById("dice2").textContent = diceFaces[dice2 - 1];
-
-            document.getElementById("result").textContent = `You rolled ${total}. You get a ${discount}% discount!`;
-
-            localStorage.setItem("lastRollDate", new Date().toISOString().split('T')[0]);
-        });
-    </script>
-</body>
-</html>
+        document.getElementById("roll
