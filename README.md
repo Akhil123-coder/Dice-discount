@@ -100,6 +100,8 @@
     <p>Contact us on WhatsApp: <a href="https://wa.me/919756448178" target="_blank">+91 9756448178</a></p>
 
     <script>
+        const diceFaces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+
         function getRandomDice() {
             return Math.floor(Math.random() * 6) + 1;
         }
@@ -110,7 +112,25 @@
             return lastRollDate !== today;
         }
 
-        function rollDice() {
+        function rollDiceAnimation(finalDice1, finalDice2) {
+            let rolls = 10; // Number of times dice will shuffle before stopping
+            let interval = setInterval(() => {
+                document.getElementById("dice1").innerText = diceFaces[Math.floor(Math.random() * 6)];
+                document.getElementById("dice2").innerText = diceFaces[Math.floor(Math.random() * 6)];
+                rolls--;
+                if (rolls === 0) {
+                    clearInterval(interval);
+                    document.getElementById("dice1").innerText = diceFaces[finalDice1 - 1];
+                    document.getElementById("dice2").innerText = diceFaces[finalDice2 - 1];
+
+                    const total = finalDice1 + finalDice2;
+                    document.getElementById("result").innerText = `You rolled ${total}! 🎉 You get a ${total}% discount!`;
+                    localStorage.setItem("lastRollDate", new Date().toISOString().split('T')[0]);
+                }
+            }, 100); // Shuffle speed (100ms)
+        }
+
+        document.getElementById("rollButton").addEventListener("click", function () {
             if (!checkRollEligibility()) {
                 document.getElementById("result").innerText = "You have already rolled today. Try again tomorrow!";
                 return;
@@ -118,21 +138,9 @@
 
             const dice1 = getRandomDice();
             const dice2 = getRandomDice();
-            document.getElementById("dice1").innerText = getDiceEmoji(dice1);
-            document.getElementById("dice2").innerText = getDiceEmoji(dice2);
 
-            localStorage.setItem("lastRollDate", new Date().toISOString().split('T')[0]);
-
-            const total = dice1 + dice2;
-            document.getElementById("result").innerText = `You rolled a ${total}! Your discount is ${total * 5}%`;
-        }
-
-        function getDiceEmoji(number) {
-            const diceFaces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
-            return diceFaces[number - 1];
-        }
-
-        document.getElementById("rollButton").addEventListener("click", rollDice);
+            rollDiceAnimation(dice1, dice2);
+        });
     </script>
 
 </body>
